@@ -21,7 +21,15 @@ const getOneQuiz = async (req, res) => {
 };
 
 // create a quiz
-const createQuiz = (req, res) => {};
+const createQuiz = async (req, res) => {
+  try {
+    const { description, alternatives } = req.body;
+    const newQuestion = await Question.create({ description, alternatives });
+    res.status(201).json({ succcess: true, data: newQuestion });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
 
 // update quiz
 const updateQuiz = (req, res) => {};
