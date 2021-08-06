@@ -1,5 +1,14 @@
+const Question = require('../models/quizModels');
+
 // get all quiz
-const getAllQuiz = (req, res) => {};
+const getAllQuiz = async (req, res) => {
+  try {
+    const questions = await Question.find();
+    res.status(200).json({ success: true, data: questions });
+  } catch (error) {
+    res.send(error.message);
+  }
+};
 
 // get a specific quiz
 const getOneQuiz = (req, res) => {};
