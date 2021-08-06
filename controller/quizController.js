@@ -11,7 +11,14 @@ const getAllQuiz = async (req, res) => {
 };
 
 // get a specific quiz
-const getOneQuiz = (req, res) => {};
+const getOneQuiz = async (req, res) => {
+  try {
+    const singleQuiz = await Question.findOne({ _id: req.params.id });
+    res.status(200).json({ success: true, data: singleQuiz });
+  } catch (error) {
+    res.status(404).json({ success: false, message: 'Quiz not found' });
+  }
+};
 
 // create a quiz
 const createQuiz = (req, res) => {};
