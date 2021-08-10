@@ -32,7 +32,22 @@ const createQuiz = async (req, res) => {
 };
 
 // update quiz
-const updateQuiz = (req, res) => {};
+const updateQuiz = async (req, res) => {
+  try {
+    const { description, alternatives } = req.body;
+    const questionInDB = await Question.findOne({ _id: req.params.id });
+    if (!questionInDB) {
+      return res.status(404).json({ message: 'Question not found' });
+    }
+    questionInDB.description = description;
+    questionInDB.alternatives = alternatives;
+
+    await questionInDB.save();
+    return res.status(200).json({ success: true, data: questionInDB });
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
 
 // delete a quiz
 const deleteQuiz = (req, res) => {};
