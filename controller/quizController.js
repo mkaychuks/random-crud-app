@@ -50,6 +50,21 @@ const updateQuiz = async (req, res) => {
 };
 
 // delete a quiz
-const deleteQuiz = (req, res) => {};
+const deleteQuiz = async (req, res) => {
+  try {
+    const questionInDB = await Question.findByIdAndDelete({
+      _id: req.params.id,
+    });
+    if (!questionInDB) {
+      return res.status(404).json({ message: 'Question not found' });
+    }
+
+    res
+      .status(200)
+      .json({ message: 'Question successfully removed', success: true });
+  } catch (error) {
+    res.status(401).json({ success: false });
+  }
+};
 
 module.exports = { getAllQuiz, getOneQuiz, createQuiz, updateQuiz, deleteQuiz };
